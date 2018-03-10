@@ -1,3 +1,3 @@
 # Mysql
 note
-Mysql的笔记个练习题
+Mysql的笔记、练习题
