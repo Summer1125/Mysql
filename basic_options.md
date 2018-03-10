@@ -64,7 +64,7 @@
 
     select user,host from user;   查看用户和host
 
-* 创建用户
+* 创建用户\
     create user '用户名'@'IP地址' identified by '密码'；\
     create user '用户名'@'192.168.1.%' identified by '密码'；\
     create user '用户名'@'%' identified by '密码'；        #任意Ip地址 \
