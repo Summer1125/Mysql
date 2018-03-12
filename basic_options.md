@@ -375,6 +375,8 @@ _术语_：
         *** 如果对队聚合数据进行二次筛选，必须使用having！！！
         
     6. 连表
+    ![image](Mysql/picture/6G13F$Z46[N8DXV5O$`_K2G.png)
+    ![image](Mysql/picture/Z3{{QSPPT~Z0JW%ETE74AFG.png)
         无对应关系则不进行显示
         select A.score,A.name,B.name from A,B where A.num = B.id;
 
