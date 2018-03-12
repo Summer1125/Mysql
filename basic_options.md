@@ -64,7 +64,8 @@ _术语_：
 ## 用户操作（创建，删除）
     默认用户：root
 
-    select user,host from user;   查看用户和host
+    use mysql;
+    select user,host from user;   查看用户和host(切到mysql这个表里)
 
     创建用户:  
         create user '用户名'@'IP地址' identified by '密码'；  
@@ -160,7 +161,7 @@ _术语_：
         truncate table t1; 新插入数据的话自增的id会从1开始！！！
     
     修改表:  
-        -- 添加列：alter table 表名 modify column 列名 类型；
+        -- 添加列：alter table 表名 add column 列名 类型；
         -- 删除列：alter table 表名 drop column 列名；
         -- 修改列：
             alter table 表名 modify column 列名 类型；
@@ -196,13 +197,20 @@ _术语_：
         name char(10),
         age int)engine=innodb default charset=utf8;
     
+    show create table t1;   查看表t1创建时的信息
+    show create table t1 \G; 按照格式查看t1创建时的信息
+
+    alter table t1 AUTO_INCREMENT = 20;   设置目前t1自增到20
+
     注意：
     1.自增列这必须是索引（含主键）
     2.可以对自增列设置步长和起始值
+        基于会话级别：
         show session variable like 'auto_inc%';
         set session auto_increment_increment=2;
         set session auto_increment_offset=10;
         
+        基于全局级别：
         show global variable like 'aotu_inc%';
         set global auto_increment_increment=2;
         set global auto_increment_offset =10;
@@ -325,14 +333,14 @@ _术语_：
         select * from 表 where id in (select in from 表2)；
     
     2. 通配符
-        select * from 表 where name like 'abc%';  abc开头的所有（多个字符串）
+        select * from 表 where name like 'abc%';  abc开头的所有（abc后面可以有多个字符串）
         select * from 表 where name like 'abc_';  abc开头后面只有一个字符的所有
         
     3.限制
     
         select * from 表 limit 5;           前5行
         select * from 表 limit 4,5;         从第4行开始的后面5行
-        select * from 表 limit 8 offset 4； 从第4行开始的后面5行
+        select * from 表 limit 5 offset 4； 从第4行开始的后面5行
 
         分页：
             在浏览网页的时候不可能把所有的数据一次显示，这时候就要分页。
@@ -378,10 +386,6 @@ _术语_：
 ![table1](https://github.com/Summer1125/Mysql/blob/master/picture/6G13F%24Z46%5BN8DXV5O%24%60_K2G.png)
 ![table2](https://github.com/Summer1125/Mysql/blob/master/picture/Z3%7B%7BQSPPT~Z0JW%25ETE74AFG.png)   
         
-        无对应关系则不进行显示
-        select A.score,A.name,B.name from A,B where A.num = B.id;
-
-
         select * from userinfo,department;
 
         select * from userinfo,department where userinfo.part_id = department.id;
@@ -400,6 +404,66 @@ _术语_：
         平时只记left就行了，谁在前在后可以这样表示：
             select * from department left join userinfo on userinfo.part_id = department.id;
             select * from userinfo left join department on userinfo.part_id = department.id;
+---
+### 唯一索引和外键的变种
+    create table t1(
+        id int ...,
+        num int,
+        unique 唯一索引名称（列名，列名）)，
+        constraint ...);
+
+
+    PS:
+        唯一索引的特点：
+            约束，不可以重复(可以为空)
+            但是主键不能重复不能为空
+            为了加速查找
+---
+    外键的变种：一对一
+    create tableuserinfo(
+        id int auto_increment primary key,
+        name char(10),
+        age int,
+        email varchar(64))
+        )engine=innodb default charset=utf8;
+
+
+    create table admin(
+        id int not null aauto_increment primary key,
+        username varchar(64) not null,
+        password VARCHAR(64) not null,
+        user_id int not null,
+        unique qu_u1(user_id),
+        CONSTRAINT fk_admin_userinfo FOREIGN key (user_id) REFERENCES userinfo(id) 
+        )engine=innodb default charset=utf8;
+
+
+    外键的变种：一对多
+    以百合网相亲记录表为例
+    create table userinfo2(
+                    id int auto_increment primary key,
+                    name char(10),
+                    gender char(10),
+                    email varchar(64)
+                )engine=innodb default charset=utf8;
+
+                create table host(
+                    id int auto_increment primary key,
+                    hostname char(64)
+                )engine=innodb default charset=utf8;
+
+
+                create table user2host(
+                    id int auto_increment primary key,
+                    userid int not null,
+                    hostid int not null,
+                    unique uq_user_host (userid,hostid),
+                    CONSTRAINT fk_u2h_user FOREIGN key (userid) REFERENCES userinfo2(id),
+                    CONSTRAINT fk_u2h_host FOREIGN key (hostid) REFERENCES host(id)
+                )engine=innodb default charset=utf8;
+
+
+    
 
 
 
