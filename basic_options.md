@@ -463,7 +463,15 @@ _术语_：
                 )engine=innodb default charset=utf8;
 
 
+## mysql数据的转储
     
+    导出一个数据库/结构：
+        mysqldump -u　用户名 -p 数据库名 > 导出的文件名.sql      #这时会导出该数据的所有数据
+        mysqldump -u　用户名 -p -d 数据库名 > 导出的文件名.sql   #只导出数据库结构，不含数据，也就说没有insert
+
+    导入数据
+        mysqldump -u 用户名 -p 数据库名 < 导入的文件名.sql 
+## Navicat的使用
 
 
 
