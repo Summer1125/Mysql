@@ -2,7 +2,7 @@
     Mysql是用于管理文件的一个软件，基于socket编写，包括服务端和客户端两部分。
     现在一般使用关系型数据库管理系统（RNBMS）来存储和管理大量数据，所谓关系型数据库就是
     建立在关系模型基础上的数据库，借助于集合代数等数学概念和方法处理数据库中的数据。
-    RNBMS:Relationship Database Management System
+    RDMS:Relationship Database Management System
 _特点_：  
 * 数据以表格的形式出现  
 * 每行为各种记录名称  
@@ -470,7 +470,7 @@ _术语_：
         mysqldump -u　用户名 -p -d 数据库名 > 导出的文件名.sql   #只导出数据库结构，不含数据，也就说没有insert
 
     导入数据
-        mysqldump -u 用户名 -p 数据库名 < 导入的文件名.sql 
+        mysql -u 用户名 -p 数据库名 < 导入的文件名.sql 
 ## Navicat的使用
 
 
